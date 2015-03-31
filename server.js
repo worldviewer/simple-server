@@ -1,37 +1,52 @@
-// Use require to get access to the Node
-// http library and store it in a variable.
-var http = require("http");
+// Bring in Express router ...
+var express = require('express');
 
-// Define a function doStuff that take in two
-// parameters, one for the request called req,
-// and one for the response called res.
+// Create app by running Express ...
+var app = express();
 
-var doStuff = function(req, res) {
+var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Express Router Calculator</title></head><body><h1>Welcome to the Express Route-Based Calculator</h1><h3>Addition: x + y</h3><p>/add/x/y</p><h3>Subtraction: x - y</h3><p>/subtract/x/y</p><h3>Multiplication: x * y</h3><p>/multiply/x/y</p><h3>Division: x / y</h3><p>/divide/x/y</p></body></html>';
 
-  // Writes the Head of the response with status
-  // code 200, specifying that the request is OK,
-  // and the body of the response will be given
-  // in plain text
+// Create Express root route with calculator directions
+app.get('/', function(req, res) {
+  res.send(html);
+});
 
-  res.writeHead(200, {"Content-Type": "text/plain"});
+var calculate = 0;
+var x = 0;
+var y = 0;
 
-  // Writes the body of the response with the content
-  // 'Hello World'
+// Addition
+app.get('/add/:x/:y', function(req, res) {
+  x = parseInt(req.params.x, 10);
+  y = parseInt(req.params.y, 10);
+  calculate = x + y;
+  res.send("<h1>" + x + " + " + y + " = " + calculate + "</h1>");
+});
 
-  res.write("Hello World");
+// Subtraction
+app.get('/subtract/:x/:y', function(req, res) {
+  x = parseInt(req.params.x, 10);
+  y = parseInt(req.params.y, 10);
+  calculate = x - y;
+  res.send("<h1>" + x + " - " + y + " = " + calculate + "</h1>");
+});
 
-  // Send the response back
+// Multiplication
+app.get('/multiply/:x/:y', function(req, res) {
+  x = parseInt(req.params.x, 10);
+  y = parseInt(req.params.y, 10);
+  calculate = x * y;
+  res.send("<h1>" + x + " * " + y + " = " + calculate + "</h1>");  
+});
 
-  res.end();
-};
+// Division
+app.get('/divide/:x/:y', function(req, res) {
+  x = parseInt(req.params.x, 10);
+  y = parseInt(req.params.y, 10);  
+  calculate = x / y;
+  res.send("<h1>" + x + " / " + y + " = " + calculate + "</h1>");  
+});
 
-// Creates a server with the doStuff function
-// that will respond to requests and send responses
-// as specified.
-
-var server = http.createServer(doStuff);
-
-// Tell the server to start listening for request on
-// port 3000
-
-server.listen(3000);
+// To run, access http://localhost:3000/
+app.listen(3000);
+console.log("To access the Express calculator, point your browser to http://localhost:3000/");
