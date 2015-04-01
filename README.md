@@ -17,4 +17,52 @@ Make sure to use named URL parameters like what we did [in class this afternoon 
 
 **Excercise 4:** Reflecting on **Exercise 3**, how would we add routes for every one in this class? Continuing on that thought, how would we add routes for arbitrarily many people?
 
+###Url Parameters
+**Url Parameters** let us use a single Url to match an entire class of routes. For example, instead of
+
+```js
+...
+
+app.get('/hi/michael', function(req,res) {
+  res.send("Hi, I'm Michael");
+});
+
+app.get('/hi/brett', function(req,res) {
+  res.send("Hi, I'm Brett");
+});
+
+...
+```
+we can
+
+1. Get rid of all but one of the routes.
+2. Change Url `/hi/michael` or `/hi/brett`, to `/hi/:name`.
+3. Change `"Hi, I'm PERSON"` to `"Hi, I'm " + req.params.name`.
+
+Doing so should give us something like this:
+
+```js
+...
+
+// We use the `:name` Url parameter in
+// place of a specific Url. We can name
+// the parameter anything we'd like.
+
+app.get('/hi/:name', function(req,res) {
+
+  // All of the Url parameters that we use
+  // in our route are accessible through
+  // the `req.params` object. Since we called
+  // our Url parameter `name`, its value can be
+  // accessed by using `req.params.name`.
+
+  res.send("Hi, I'm " + req.params.name);
+});
+
+...
+```
+
+**Exercise 5:** Add a route `GET /add/:x/:y` that sends back the result of `x + y`. For example, a request to `GET /add/1/5` would send back 6.
+
+**Note:** `req.params.x` and `req.params.y` are strings, we need to turn them into numbers. This can be done using the `Number` function.
 
